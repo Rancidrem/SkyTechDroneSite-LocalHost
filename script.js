@@ -82,14 +82,61 @@
   if (year) year.textContent = new Date().getFullYear();
 
   // Contact form demo
-  const form = document.querySelector('#contact-form');
-  const success = document.querySelector('.form-success');
-  if (form && success) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+const form = document.querySelector('#contact-form');
+const success = document.querySelector('.form-success');
+
+if (form && success) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton ? submitButton.textContent : 'Send Message';
+
+    try {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+      }
+
+      const formData = new FormData(form);
+
+      const payload = {
+        name: formData.get('name')?.toString().trim() || '',
+        email: formData.get('email')?.toString().trim() || '',
+        phone: formData.get('phone')?.toString().trim() || '',
+        service: formData.get('service')?.toString().trim() || '',
+        message: formData.get('message')?.toString().trim() || ''
+      };
+
+      const response = await fetch('/api/tickets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.message || 'Submission failed.');
+      }
+
+      success.textContent = `Request received. Ticket #${result.ticket_id}`;
       success.hidden = false;
-      setTimeout(() => (success.hidden = true), 6000);
       form.reset();
-    });
-  }
-})();
+
+      setTimeout(() => {
+        success.hidden = true;
+      }, 6000);
+    } catch (err) {
+      success.textContent = err.message || 'Submission failed.';
+      success.hidden = false;
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+    }
+  });
+}})
