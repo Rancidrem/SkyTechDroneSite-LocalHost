@@ -1,0 +1,26 @@
+{
+  "name": "skytechdronesite-localhost",
+  "version": "1.0.0",
+  "description": "- `index.html` — the full page (single-page site with sections)\r - `styles.css` — all styling\r - `script.js` — mobile menu + demo form success message\r - `assets/` — placeholder SVG images you can replace",
+  "main": "purchase.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rancidrem/SkyTechDroneSite-LocalHost.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Rancidrem/SkyTechDroneSite-LocalHost/issues"
+  },
+  "homepage": "https://github.com/Rancidrem/SkyTechDroneSite-LocalHost#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.22.0"
+  }
+}
